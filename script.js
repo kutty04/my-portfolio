@@ -2,11 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Typewriter Effect
     const typewriterElement = document.getElementById('typewriter');
     const roles = [
-        'Full-Stack Developer',
-        'AI Enthusiast',
-        'Intelligent System Architect',
-        'Frontend Specialist',
-        'Problem Solver'
+        'Software Engineer Focused on AI-Driven Products',
+        'Full-Stack Developer Building Intelligent Systems',
+        'AI-Powered Full-Stack Developer'
     ];
     
     let roleIndex = 0;
@@ -93,18 +91,40 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
 
-            // Simulate API call
-            setTimeout(() => {
-                btn.innerHTML = 'Message Sent! <i class="fas fa-check"></i>';
-                btn.style.background = '#10b981'; // Success green
-                contactForm.reset();
-                
+            const formData = new FormData(contactForm);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: json
+            })
+            .then(async (response) => {
+                let json = await response.json();
+                if (response.status == 200) {
+                    btn.innerHTML = 'Message Sent! <i class="fas fa-check"></i>';
+                    btn.style.background = '#10b981'; // Success green
+                    contactForm.reset();
+                } else {
+                    console.log(response);
+                    btn.innerHTML = 'Error Sending <i class="fas fa-times"></i>';
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                btn.innerHTML = 'Error Sending <i class="fas fa-times"></i>';
+            })
+            .then(() => {
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.style.background = '';
                     btn.disabled = false;
                 }, 3000);
-            }, 1500);
+            });
         });
     }
 
