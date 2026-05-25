@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     // 1. Typewriter Effect
     const typewriterElement = document.getElementById('typewriter');
     const roles = [
@@ -135,6 +135,46 @@ document.addEventListener('DOMContentLoaded', () => {
         const y = e.clientY;
         
         // Slightly move the glow based on cursor
-        bgGlow.style.transform = `translate(${(x - window.innerWidth/2)/20}px, ${(y - window.innerHeight/2)/20}px)`;
+        if (bgGlow) {
+            bgGlow.style.transform = `translate(${(x - window.innerWidth/2)/20}px, ${(y - window.innerHeight/2)/20}px)`;
+        }
     });
+
+    // 7. Mobile Menu Toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const body = document.body;
+
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+            
+            // Toggle body scroll
+            if (navLinks.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        });
+
+        // Close menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !navToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+                navToggle.classList.remove('active');
+                body.style.overflow = '';
+            }
+        });
+    }
 });
