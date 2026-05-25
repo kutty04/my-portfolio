@@ -18,6 +18,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+}
 
 body {
     background-color: var(--bg-color);
@@ -708,7 +713,8 @@ img, svg {
         color: var(--text-primary);
         z-index: 1001;
         transition: var(--transition-smooth);
-        padding: 0.5rem;
+        padding: 0.5rem 0.25rem 0.5rem 0.5rem; /* Remove right padding so it aligns perfectly with logo edge */
+        margin-right: -0.25rem; /* Align icon directly with the container grid edge */
     }
 
     .nav-toggle.active i::before {
@@ -719,7 +725,7 @@ img, svg {
     .nav-links {
         position: fixed !important;
         top: 0 !important;
-        right: -100% !important;
+        right: 0 !important;
         width: 75% !important;
         height: 100vh !important;
         background: rgba(11, 15, 25, 0.98) !important;
@@ -731,13 +737,14 @@ img, svg {
         align-items: center !important;
         padding: 8rem 2rem 2rem !important;
         gap: 1.75rem !important;
-        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        transform: translateX(100%) !important;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
         z-index: 1000 !important;
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5) !important;
     }
 
     .nav-links.active {
-        right: 0 !important;
+        transform: translateX(0) !important;
     }
 
     .nav-links li {
